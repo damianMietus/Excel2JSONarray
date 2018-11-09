@@ -1,89 +1,89 @@
-#import sys
-#import string
-#import time
-
-
 import Tkinter
 from Tkinter import *
 import Tkinter, Tkconstants, tkFileDialog
 
+
+
 root = Tk()
 
-root.geometry("400x200")
+#Button commands
+def directoryFunc():
+	root.filename = tkFileDialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("xlsx files","*.xlsx"),("all files","*.*")))
+	print (root.filename)
+	dirEntry.delete(0,END)
+	dirEntry.insert(0, root.filename)
+
+root.geometry("500x175")
 root.resizable(0, 0)
 root.title("xlsx2JSONarray")
 root.pack_propagate(0)
 
-leftFrame = Frame(root)
-leftFrame.pack(side =LEFT)
-rightFrame = Frame(root, width = 150, height = 100, bd = 2, relief=SUNKEN )
+#leftFrame = Frame(root, width = 350, height = 300, bd = 1, relief=SUNKEN )
+#leftFrame.pack(side =LEFT)
+#leftFrame.pack_propagate(0)
+rightFrame = Frame(root, width = 145, height = 150, bd = 2, relief=SUNKEN)
 rightFrame.pack_propagate(0)
 rightFrame.pack(side=RIGHT, anchor="n")
 
-'''
-rightTopFrame = Frame(root)
-rightTopFrame = Frame(root, width = 100, height = 100, bd = 2, relief=SUNKEN )
-rightTopFrame.pack(rightFrame)
-'''
+# Directory
+dirLabel = Label(root, text="Choose file location:")
+dirLabel.grid(row=0, column=0)
 
-button1 = Button(leftFrame, text="Button 1", fg="red")
-button2 = Button(rightFrame, text="Button 2", fg="purple")
+dirEntry = Entry(root, width=50)
+dirEntry.grid(row=3, column=0)
 
-button1.pack()
-button2.pack()
+dirButton = Button(root, text="...", command=directoryFunc)
+dirButton.grid(row=3, column = 1)
+
+# Output name
+outpLabel = Label(root, text="Output file name:")
+outpLabel.grid(row=4, column = 0)
+
+outpEntry = Entry(root, width=50)
+outpEntry.grid(row=5, column=0)
+
+outpLabel = Label(root, text=".json")
+outpLabel.grid(row=5, column = 1)
+
+# Array name
+arLabel = Label(root, text="Name of JSON array:")
+arLabel.grid(row=6, column = 0)
+
+arEntry = Entry(root, width=50)
+arEntry.grid(row=7, column=0)
+
+# Excel Column
+exLabel = Label(root, text="Excel column to read from:")
+exLabel.grid(row=9, column = 0)
+
+exEntry = Entry(root, width=50)
+exEntry.grid(row=10, column=0)
 
 
 
-dirButton = Button(leftFrame, text="...")
-dirButton.pack()
 
 
+# Utilities frame
 
+utilityLabel = Label(rightFrame, text="Text Format:",anchor="n")
+utilityLabel.pack()
 
-
-op1Vals = ["Default", "Set to Lowercase", "Set to Uppercase"]
+op1Vals = ["Default", "Lowercase", "Uppercase"]
 op1Select = StringVar()
 op1Select.set(op1Vals[0])
 
 op1 = OptionMenu(rightFrame, op1Select, *op1Vals)
 op1.pack()
 
-#root.filename = tkFileDialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("xlsx files","*.xlsx"),("all files","*.*")))
-#print (root.filename)
 
+
+# The Execute Button
+
+excLabel = Label(rightFrame, text="")
+excLabel.pack()
+executeButton = Button(rightFrame, text="Execute", bd = 3, width=10, height=3,pady = 3)
+executeButton.pack(anchor="s")
 
 root.mainloop()
 
 
-'''
-# Check the imports
-try:
-	from openpyxl import load_workbook
-	from openpyxl import Workbook
-except:
-	print ("Could not import openpyxl.")
-	time.sleep(5)
-	sys.exit(1)
-
-try:
-	from tqdm import tqdm
-except:
-	print ("Could not import tqdm.")
-	time.sleep(5)
-	sys.exit(1)
-	
-# Get the directory of the excel file
-while (True):
-	filename = raw_input("Please input the name of the Excel file: ")
-	try:
-		wb = load_workbook(filename, data_only = True)
-		ws = wb.active
-		print ("Successfully opened the workbook")
-		break
-	except:
-		print ("error opening the file")
-
-print("Its done")
-time.sleep(5)
-sys.exit(1)
-'''
