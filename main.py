@@ -1,7 +1,7 @@
 import Tkinter
+import tkMessageBox
 from Tkinter import *
 import Tkinter, Tkconstants, tkFileDialog
-
 
 
 root = Tk()
@@ -14,17 +14,56 @@ def directoryFunc():
 	dirEntry.insert(0, root.filename)
 
 def checkVar():
+
+	
+	errorStr = "Failed to execute for the following reasons:\n"
+	errorFlag = False
+
+
+
+
 	dirvar = dirv.get()
 	print "Directory: "+dirvar
+
+	# Directory error
+	if not dirvar:
+		errorStr= errorStr+"- No directory selected\n"
+		errorFlag = True
 
 	outpvar = outpv.get()
 	print "Output filename: "+outpvar+".json"
 
+	# Name.json error
+	if not outpvar:
+		errorStr= errorStr+"- No output file name given\n"
+		errorFlag = True
+
 	arvar = arv.get()
 	print "Array name: "+arvar
 
+	# Array name error
+	if not arvar:
+		errorStr= errorStr+"- No json array name given\n"
+		errorFlag = True
+
 	exvar = exv.get()
 	print "Excel column: "+exvar
+
+	mode = op1Select.get()
+	print "Mode: "+mode
+
+	# Column error
+	if not exvar:
+		errorStr= errorStr+"- No column given\n"
+		errorFlag = True
+	elif (exvar.isalpha() == False):
+		errorStr= errorStr+"- Column may only be alphabetical\n"
+		errorFlag = True	
+
+	if (errorFlag == True):
+		tkMessageBox.showinfo("Error", errorStr)
+	else:
+		print "Success"
 
 root.geometry("500x175")
 root.resizable(0, 0)
@@ -88,8 +127,6 @@ utilityLabel.pack()
 op1Vals = ["Default", "Lowercase", "Uppercase"]
 op1Select = StringVar()
 op1Select.set(op1Vals[0])
-
-#op1 = RadioButton(rightFrame, )
 
 op1 = OptionMenu(rightFrame, op1Select, *op1Vals)
 op1.pack()
