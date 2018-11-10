@@ -13,6 +13,19 @@ def directoryFunc():
 	dirEntry.delete(0,END)
 	dirEntry.insert(0, root.filename)
 
+def checkVar():
+	dirvar = dirv.get()
+	print "Directory: "+dirvar
+
+	outpvar = outpv.get()
+	print "Output filename: "+outpvar+".json"
+
+	arvar = arv.get()
+	print "Array name: "+arvar
+
+	exvar = exv.get()
+	print "Excel column: "+exvar
+
 root.geometry("500x175")
 root.resizable(0, 0)
 root.title("xlsx2JSONarray")
@@ -29,7 +42,8 @@ rightFrame.pack(side=RIGHT, anchor="n")
 dirLabel = Label(root, text="Choose file location:")
 dirLabel.grid(row=0, column=0)
 
-dirEntry = Entry(root, width=50)
+dirv = StringVar()
+dirEntry = Entry(root, width=50,textvariable=dirv)
 dirEntry.grid(row=3, column=0)
 
 dirButton = Button(root, text="...", command=directoryFunc)
@@ -39,7 +53,8 @@ dirButton.grid(row=3, column = 1)
 outpLabel = Label(root, text="Output file name:")
 outpLabel.grid(row=4, column = 0)
 
-outpEntry = Entry(root, width=50)
+outpv = StringVar()
+outpEntry = Entry(root, width=50, textvariable=outpv)
 outpEntry.grid(row=5, column=0)
 
 outpLabel = Label(root, text=".json")
@@ -49,14 +64,16 @@ outpLabel.grid(row=5, column = 1)
 arLabel = Label(root, text="Name of JSON array:")
 arLabel.grid(row=6, column = 0)
 
-arEntry = Entry(root, width=50)
+arv = StringVar()
+arEntry = Entry(root, width=50, textvariable=arv)
 arEntry.grid(row=7, column=0)
 
 # Excel Column
 exLabel = Label(root, text="Excel column to read from:")
 exLabel.grid(row=9, column = 0)
 
-exEntry = Entry(root, width=50)
+exv = StringVar()
+exEntry = Entry(root, width=50, textvariable=exv)
 exEntry.grid(row=10, column=0)
 
 
@@ -72,6 +89,8 @@ op1Vals = ["Default", "Lowercase", "Uppercase"]
 op1Select = StringVar()
 op1Select.set(op1Vals[0])
 
+#op1 = RadioButton(rightFrame, )
+
 op1 = OptionMenu(rightFrame, op1Select, *op1Vals)
 op1.pack()
 
@@ -81,7 +100,7 @@ op1.pack()
 
 excLabel = Label(rightFrame, text="")
 excLabel.pack()
-executeButton = Button(rightFrame, text="Execute", bd = 3, width=10, height=3,pady = 3)
+executeButton = Button(rightFrame, text="Execute", bd = 3, width=10, height=3,pady = 3, command = checkVar)
 executeButton.pack(anchor="s")
 
 root.mainloop()
