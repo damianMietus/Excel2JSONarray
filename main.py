@@ -68,15 +68,19 @@ def parseFunc(directString, outputString, arrayString, column, mode, perline):
 
 		j = j+1
 		if (j == int(perline)):
-			exportStr = exportStr+'\n'
-			j = 0
+			if (i != int(len(itemList))-1 ):
+				exportStr = exportStr+'\n'
+				j = 0
 
 	exportStr = exportStr+"]\n}"
 	
 	print exportStr
 
+	f = open(outputString+".json", 'w')
+	f.write(exportStr)
+	f.close()
 
-
+	tkMessageBox.showinfo("Success", "File successfully converted.")
 
 #Button commands
 def directoryFunc():
