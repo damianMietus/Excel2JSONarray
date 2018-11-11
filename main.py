@@ -3,8 +3,80 @@ import tkMessageBox
 from Tkinter import *
 import Tkinter, Tkconstants, tkFileDialog
 
+import sys
+import string
+import time
 
 root = Tk()
+
+
+
+# Parse Function
+def parseFunc(directString, outputString, arrayString, column, mode, perline):
+
+	try:
+		from openpyxl import load_workbook
+		from openpyxl import Workbook
+	except:
+		tkMessageBox.showinfo("Error", "Could not import openpyxl.")
+		time.sleep(2)
+		sys.exit(1)
+
+	# Open Workbook
+	try:
+		wb = load_workbook(directString, data_only = True)
+		ws = wb.active
+		print ("Successfully opened the workbook")
+	except:
+		print("Oopsie whoopsie!")
+		tkMessageBox.showinfo("Error", "Unable to open the sheet.")
+		return
+
+	index = "A1"
+	itemList = []
+
+	# Collect values from columns
+	for i in range (1, ws.max_row+1):
+		index = column+ str(i)
+		if ws[index].value is None:
+			endFlag = True
+			break
+
+		cellValue = ws[index].value
+
+		# Apply text mode
+		if (mode == "Lowercase"):
+			cellValue = cellValue.lower()
+		elif (mode == "Uppercase"):
+			cellValue = cellValue.upper()
+
+		print cellValue
+		itemList.append(cellValue)
+
+	exportStr = "{\n"+'"'+arrayString+'":['
+	#print exportStr
+
+	# Put list items into exportStr
+	j = 0
+	for i in range (0, len(itemList)):
+	
+		add = itemList[i]
+		exportStr = exportStr+' "'+add+'"'
+
+		if (i != len(itemList)-1):
+			exportStr = exportStr+','
+
+		j = j+1
+		if (j == int(perline)):
+			exportStr = exportStr+'\n'
+			j = 0
+
+	exportStr = exportStr+"]\n}"
+	
+	print exportStr
+
+
+
 
 #Button commands
 def directoryFunc():
@@ -60,20 +132,29 @@ def checkVar():
 		errorStr= errorStr+"- Column may only be alphabetical\n"
 		errorFlag = True	
 
+	perlinevar = perlinev.get()
+	# Per Line Error
+	if not perlinevar:
+		perlinevar = "-1"
+	elif (perlinevar.isdigit() == False):
+		errorStr= errorStr+"- Items per line must be numerical\n"		
+		errorFlag = True
+
 	if (errorFlag == True):
 		tkMessageBox.showinfo("Error", errorStr)
 	else:
-		print "Success"
+		# Success. Begin parsing
+		parseFunc(dirvar, outpvar, arvar, exvar, mode, perlinevar)
 
 root.geometry("500x175")
 root.resizable(0, 0)
-root.title("xlsx2JSONarray")
+root.title("Excel2JSONarray")
 root.pack_propagate(0)
 
 #leftFrame = Frame(root, width = 350, height = 300, bd = 1, relief=SUNKEN )
 #leftFrame.pack(side =LEFT)
 #leftFrame.pack_propagate(0)
-rightFrame = Frame(root, width = 145, height = 150, bd = 2, relief=SUNKEN)
+rightFrame = Frame(root, width = 145, height = 165, bd = 2, relief=SUNKEN)
 rightFrame.pack_propagate(0)
 rightFrame.pack(side=RIGHT, anchor="n")
 
@@ -121,6 +202,7 @@ exEntry.grid(row=10, column=0)
 
 # Utilities frame
 
+# Text Format
 utilityLabel = Label(rightFrame, text="Text Format:",anchor="n")
 utilityLabel.pack()
 
@@ -131,13 +213,20 @@ op1Select.set(op1Vals[0])
 op1 = OptionMenu(rightFrame, op1Select, *op1Vals)
 op1.pack()
 
+# Tabs Per Line
+perlineLabel = Label(rightFrame, text="Array Items Per Line:")
+perlineLabel.pack()
+
+perlinev = StringVar()
+arEntry = Entry(rightFrame, width=5, textvariable=perlinev)
+arEntry.pack()
 
 
 # The Execute Button
 
 excLabel = Label(rightFrame, text="")
 excLabel.pack()
-executeButton = Button(rightFrame, text="Execute", bd = 3, width=10, height=3,pady = 3, command = checkVar)
+executeButton = Button(rightFrame, text="Execute", bd = 3, width=10, height=4, command = checkVar)
 executeButton.pack(anchor="s")
 
 root.mainloop()
