@@ -2,14 +2,11 @@ import Tkinter
 import tkMessageBox
 from Tkinter import *
 import Tkinter, Tkconstants, tkFileDialog
-
 import sys
 import string
 import time
 
 root = Tk()
-
-
 
 # Parse Function
 def parseFunc(directString, outputString, arrayString, column, mode, perline):
@@ -21,7 +18,7 @@ def parseFunc(directString, outputString, arrayString, column, mode, perline):
 		tkMessageBox.showinfo("Error", "Could not import openpyxl.")
 		time.sleep(2)
 		sys.exit(1)
-
+		
 	# Open Workbook
 	try:
 		wb = load_workbook(directString, data_only = True)
@@ -90,13 +87,9 @@ def directoryFunc():
 	dirEntry.insert(0, root.filename)
 
 def checkVar():
-
 	
 	errorStr = "Failed to execute for the following reasons:\n"
 	errorFlag = False
-
-
-
 
 	dirvar = dirv.get()
 	print "Directory: "+dirvar
@@ -155,9 +148,6 @@ root.resizable(0, 0)
 root.title("Excel2JSONarray")
 root.pack_propagate(0)
 
-#leftFrame = Frame(root, width = 350, height = 300, bd = 1, relief=SUNKEN )
-#leftFrame.pack(side =LEFT)
-#leftFrame.pack_propagate(0)
 rightFrame = Frame(root, width = 145, height = 165, bd = 2, relief=SUNKEN)
 rightFrame.pack_propagate(0)
 rightFrame.pack(side=RIGHT, anchor="n")
@@ -200,10 +190,6 @@ exv = StringVar()
 exEntry = Entry(root, width=50, textvariable=exv)
 exEntry.grid(row=10, column=0)
 
-
-
-
-
 # Utilities frame
 
 # Text Format
@@ -225,7 +211,6 @@ perlinev = StringVar()
 arEntry = Entry(rightFrame, width=5, textvariable=perlinev)
 arEntry.pack()
 
-
 # The Execute Button
 
 excLabel = Label(rightFrame, text="")
@@ -234,5 +219,3 @@ executeButton = Button(rightFrame, text="Execute", bd = 3, width=10, height=4, c
 executeButton.pack(anchor="s")
 
 root.mainloop()
-
-
