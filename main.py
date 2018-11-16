@@ -25,7 +25,6 @@ def parseFunc(directString, outputString, arrayString, column, mode, perline):
 		ws = wb.active
 		print ("Successfully opened the workbook")
 	except:
-		print("Oopsie whoopsie!")
 		tkMessageBox.showinfo("Error", "Unable to open the sheet.")
 		return
 
@@ -70,8 +69,6 @@ def parseFunc(directString, outputString, arrayString, column, mode, perline):
 				j = 0
 
 	exportStr = exportStr+"]\n}"
-	
-	print exportStr
 
 	f = open(outputString+".json", 'w')
 	f.write(exportStr)
@@ -82,7 +79,6 @@ def parseFunc(directString, outputString, arrayString, column, mode, perline):
 #Button commands
 def directoryFunc():
 	root.filename = tkFileDialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("xlsx files","*.xlsx"),("all files","*.*")))
-	print (root.filename)
 	dirEntry.delete(0,END)
 	dirEntry.insert(0, root.filename)
 
@@ -92,7 +88,6 @@ def checkVar():
 	errorFlag = False
 
 	dirvar = dirv.get()
-	print "Directory: "+dirvar
 
 	# Directory error
 	if not dirvar:
@@ -100,7 +95,6 @@ def checkVar():
 		errorFlag = True
 
 	outpvar = outpv.get()
-	print "Output filename: "+outpvar+".json"
 
 	# Name.json error
 	if not outpvar:
@@ -108,7 +102,6 @@ def checkVar():
 		errorFlag = True
 
 	arvar = arv.get()
-	print "Array name: "+arvar
 
 	# Array name error
 	if not arvar:
@@ -116,10 +109,8 @@ def checkVar():
 		errorFlag = True
 
 	exvar = exv.get()
-	print "Excel column: "+exvar
 
 	mode = op1Select.get()
-	print "Mode: "+mode
 
 	# Column error
 	if not exvar:
