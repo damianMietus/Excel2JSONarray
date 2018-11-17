@@ -50,8 +50,7 @@ def parseFunc(directString, outputString, arrayString, column, mode, perline):
 		itemList.append(cellValue)
 
 	exportStr = "{\n"+'"'+arrayString+'":['
-	#print exportStr
-
+	
 	# Put list items into exportStr
 	j = 0
 	for i in range (0, len(itemList)):
